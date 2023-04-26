@@ -1,23 +1,22 @@
 import { Controller, Get, Param, Post, Query, Body } from '@nestjs/common';
 import { CreatePoolDto } from 'src/nominator_pools/dto/create-pool.dto';
-
+import { NominatorPoolsService } from 'src/nominator_pools/nominator_pools.service'
 @Controller('nominator-pools')
 export class NominatorPoolsController {
+
+    constructor(private readonly nominatorPoolsService: NominatorPoolsService){}
     @Get()
-    getPools() {
-        return  [];
+    getPools(@Query('type') type: 'custodial' | 'non-custodial') {
+        return  this.nominatorPoolsService.getPools(type);
     }
-    @Get('/bytype')
-    getActivePools(@Query('type') type: string) {
-        return  [{"type": type},];
-    }
+    
     @Get(':id')
     getPool(@Param('id') id: string) {
-        return  {id,};
+        return this.nominatorPoolsService.getPool(+id);
     }
     @Post()
     createPool(@Body() pool: CreatePoolDto) {
-        return pool.address;
+        return this.nominatorPoolsService.createPool(pool);
     }
 
 }
