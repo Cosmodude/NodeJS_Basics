@@ -33,3 +33,5 @@ first_nest_api/!.vscode/settings.json
 first_nest_api/!.vscode/tasks.json
 first_nest_api/!.vscode/launch.json
 first_nest_api/!.vscode/extensions.json
+
+first_nest_api/.env
