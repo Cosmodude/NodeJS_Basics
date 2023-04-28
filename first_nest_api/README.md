@@ -5,3 +5,7 @@
   Request --> Controller --> Service
 
 Services == Providers
+
+## Validation:
+  https://docs.nestjs.com/techniques/validation
+every path parameter and query parameter comes over the network as a string by default
