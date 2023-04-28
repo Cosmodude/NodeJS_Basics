@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Query, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Body ,NotFoundException, BadRequestException} from '@nestjs/common';
 import { CreatePoolDto } from 'src/nominator_pools/dto/create-pool.dto';
 import { NominatorPoolsService } from 'src/nominator_pools/nominator_pools.service'
 @Controller('nominator-pools')
@@ -7,12 +7,18 @@ export class NominatorPoolsController {
     constructor(private readonly nominatorPoolsService: NominatorPoolsService){}
     @Get()
     getPools(@Query('type') type: 'custodial' | 'non-custodial') {
-        return  this.nominatorPoolsService.getPools(type);
+        try {
+            return this.nominatorPoolsService.getPools(type);
+        }catch(err){throw new BadRequestException();}
     }
     
     @Get(':id')
     getPool(@Param('id') id: string) {
-        return this.nominatorPoolsService.getPool(+id);
+        try {
+            return this.nominatorPoolsService.getPool(+id);
+        } catch (err) {
+            throw new NotFoundException();
+        }
     }
     @Post()
     createPool(@Body() pool: CreatePoolDto) {
