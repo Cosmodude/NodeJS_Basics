@@ -1,4 +1,15 @@
-import { Controller, Get, Param, Post, Query, Body ,NotFoundException, BadRequestException} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Param,
+    Post,
+    Query,
+    Body,
+    NotFoundException,
+    BadRequestException,
+    ParseIntPipe,
+    ValidationPipe,
+} from '@nestjs/common';
 import { CreatePoolDto } from 'src/nominator_pools/dto/create-pool.dto';
 import { NominatorPoolsService } from 'src/nominator_pools/nominator_pools.service'
 @Controller('nominator-pools')
@@ -13,7 +24,7 @@ export class NominatorPoolsController {
     }
     
     @Get(':id')
-    getPool(@Param('id') id: string) {
+    getPool(@Param('id',ParseIntPipe) id: number) {
         try {
             return this.nominatorPoolsService.getPool(+id);
         } catch (err) {
@@ -21,7 +32,7 @@ export class NominatorPoolsController {
         }
     }
     @Post()
-    createPool(@Body() pool: CreatePoolDto) {
+    createPool(@Body(new ValidationPipe()) pool: CreatePoolDto) {
         return this.nominatorPoolsService.createPool(pool);
     }
 
