@@ -9,9 +9,11 @@ import {
     BadRequestException,
     ParseIntPipe,
     ValidationPipe,
+    UseGuards,
 } from '@nestjs/common';
 import { CreatePoolDto } from 'src/nominator_pools/dto/create-pool.dto';
-import { NominatorPoolsService } from 'src/nominator_pools/nominator_pools.service'
+import { NominatorPoolsService } from 'src/nominator_pools/nominator_pools.service';
+import { WalletGuard } from 'src/wallet/wallet.guard';
 @Controller('nominator-pools')
 export class NominatorPoolsController {
 
@@ -32,6 +34,7 @@ export class NominatorPoolsController {
         }
     }
     @Post()
+    @UseGuards(WalletGuard)
     createPool(@Body(new ValidationPipe()) pool: CreatePoolDto) {
         return this.nominatorPoolsService.createPool(pool);
     }
