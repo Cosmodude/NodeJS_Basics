@@ -11,7 +11,8 @@ export class WalletGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const isAdmin = (request.user.wallet === env.Admin_Wallet) ;
+    //console.log(env.Admin_Wallet);
+    //const isAdmin = (request.user.wallet === env.Admin_Wallet) ;
     return true;
   }
 }
