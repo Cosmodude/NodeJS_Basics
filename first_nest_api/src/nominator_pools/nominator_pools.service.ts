@@ -1,9 +1,12 @@
+import { plainToClass } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Pool } from './user.entity';
+import { Pool } from './pool.entity';
 import { CreatePoolDto } from './dto/create-pool.dto';
+
+const poolsNumber = 0;
 @Injectable()  // shows that you can automatiacally inject it by providing as param into constructor
 export class NominatorPoolsService {
     // for DBs
@@ -13,15 +16,14 @@ export class NominatorPoolsService {
         private dataSource: DataSource,
       ) {}
     
-    async createMany(pools: Pool[]) {
+    async createNewPool(pool: Pool) {
         await this.dataSource.transaction(async manager => {
-            await manager.save(pools[0]);
-            await manager.save(pools[1]);
+            await manager.save(pool);
         });
     }
       
       findAll(): Promise<Pool[]> {
-        return this.poolsRepository.find();
+            return this.poolsRepository.find();
     }
     
     private pools = [
@@ -46,11 +48,11 @@ export class NominatorPoolsService {
     }
 
     createPool(createPoolDto: CreatePoolDto) {
-        const newPool = {
+        const pool = {
+            id: 0,
             ...createPoolDto,
-            id: this.pools.length,
         }
-        this.pools.push(newPool);
-        return this.pools;
+        let newPool = plainToClass( Pool, pool);
+        return this.createNewPool(newPool);  // gets entity
     }
 }
