@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { CreatePoolDto } from 'src/nominator_pools/dto/create-pool.dto';
 import { NominatorPoolsService } from 'src/nominator_pools/nominator_pools.service';
-import { WalletGuard } from 'src/wallet/wallet.guard';
+import { WalletGuard } from 'src/guards/wallet.guard';
 @Controller('nominator-pools')
 export class NominatorPoolsController {
 

@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { Pool } from './pool.entity';
 import { CreatePoolDto } from './dto/create-pool.dto';
 
-const poolsNumber = 0;
 @Injectable()  // shows that you can automatiacally inject it by providing as param into constructor
 export class NominatorPoolsService {
     // for DBs
