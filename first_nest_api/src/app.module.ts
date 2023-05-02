@@ -6,6 +6,7 @@ import { ExampleModule } from './example/example.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pool } from './nominator_pools/pool.entity';
 import { load } from 'ts-dotenv';
+
 const env = load({
     DB_USER: String,
     DB_PASSWORD: String,
@@ -21,7 +22,7 @@ const env = load({
       username: env.DB_USER,
       password: env.DB_PASSWORD,
       database: env.DB_NAME,
-      entities: [Pool],
+      //entities: [Pool],
       autoLoadEntities: true,
       synchronize: true, //Indicates if database schema should be auto created on every application launch.
     }),
