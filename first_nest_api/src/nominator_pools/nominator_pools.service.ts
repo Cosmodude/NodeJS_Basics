@@ -21,34 +21,31 @@ export class NominatorPoolsService {
         });
     }
       
-      findAll(): Promise<Pool[]> {
-            return this.poolsRepository.find();
-    }
-    
-    private pools = [
-        { id: 0, address: "0x1", totalStake: 1e6, name: "First Pool", profitShare: 60,type: "custodial"},
-        { id: 1, address: "0x2", totalStake: 5e5, name: "TEB Pool", profitShare: 90, type: "non-custodial"},
-        { id: 2, address: "0x3", totalStake: 6e4, name: "TON Blades", profitShare: 70, type: "custodial"},
-    ]
-
     async getPools(type?: 'custodial' | 'non-custodial') {
         if (type) {
-            const pools = await this.dataSource
-            .getRepository(Pool)
-            .createQueryBuilder("pools")
-            .where("pools.type = :type", { type })
-            .getMany()
+            const pools = await this.dataSource.manager
+                .createQueryBuilder(Pool, "pools")
+                .where("pools.type = :type", { type })
+                .getMany();
         return pools;
         }
-        const pools = await this.dataSource
+        // using manager
+        const pools = await this.dataSource.manager
+            .createQueryBuilder(Pool, "pools")
+            .getMany();
+        // using repository
+        /*const pools = await this.dataSource
             .getRepository(Pool)
             .createQueryBuilder("pools")
-            .getMany()
+            .getMany()*/
         return pools;
     }
 
-    getPool(id: number) {
-        const pool = this.pools.find((pool) => pool.id === id);
+    async getPool(id: number) {
+        const pool = await this.dataSource.manager
+            .createQueryBuilder(Pool, "pool")
+            .where("pool.id = :id", { id })
+            .getOne();
         if (!pool) {
             throw new Error('pool not found')
         }
