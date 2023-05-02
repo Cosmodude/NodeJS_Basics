@@ -31,11 +31,20 @@ export class NominatorPoolsService {
         { id: 2, address: "0x3", totalStake: 6e4, name: "TON Blades", profitShare: 70, type: "custodial"},
     ]
 
-    getPools(type?: 'custodial' | 'non-custodial') {
+    async getPools(type?: 'custodial' | 'non-custodial') {
         if (type) {
-            return this.pools.filter((pool) => pool.type === type);
+            const pools = await this.dataSource
+            .getRepository(Pool)
+            .createQueryBuilder("pools")
+            .where("pools.type = :type", { type })
+            .getMany()
+        return pools;
         }
-        return this.pools;
+        const pools = await this.dataSource
+            .getRepository(Pool)
+            .createQueryBuilder("pools")
+            .getMany()
+        return pools;
     }
 
     getPool(id: number) {
