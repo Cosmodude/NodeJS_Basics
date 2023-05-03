@@ -1,8 +1,7 @@
 import { plainToClass } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { Pool } from './pool.entity';
 import { CreatePoolDto } from './dto/create-pool.dto';
 

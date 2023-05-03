@@ -23,7 +23,7 @@ const env = load({
       password: env.DB_PASSWORD,
       database: env.DB_NAME,
       //entities: [Pool],
-      autoLoadEntities: true,
+      autoLoadEntities: true,  // only in neest
       synchronize: true, //Indicates if database schema should be auto created on every application launch.
     }),
     NominatorPoolsModule,
