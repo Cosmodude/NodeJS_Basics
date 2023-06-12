@@ -38,8 +38,19 @@ bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   var Hi = "hi";
   if (msg.text.toString().toLowerCase().indexOf(Hi) === 0) {
-    bot.sendMessage(msg.chat.id,"Hello dear user");
+    Hello(msg);
+    //bot.sendPhoto(msg.chat.id, photo, { caption: "Hello  " + msg.from.first_name });
+  }
+  var robot = "I'm robot";
+  if (msg.text.indexOf(robot) === 0) {
+    bot.sendMessage(msg.chat.id, "Yes and you live in the matrix!");
   }
   // send a message to the chat acknowledging receipt of their message
   //bot.sendMessage(chatId, 'Received your message, text more!!!');
 });
+
+async function Hello(msg) {
+  const photo = await bot.getUserProfilePhotos(msg.from.id);
+  const file_id = photo.photos[0][0].file_id;
+  bot.sendPhoto(msg.chat.id,file_id, { caption: "Hello  " + msg.from.first_name });
+}
